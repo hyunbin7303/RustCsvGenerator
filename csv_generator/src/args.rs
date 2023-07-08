@@ -1,18 +1,15 @@
-use clap:: {
-    Args, Parser, Subcommand
-};
-// use std::error::Error;
+use clap:: { Args, Parser, Subcommand };
 
 #[derive(Debug,Parser)]
 #[clap(author,version,about, long_about = None)]
 pub struct CliArgs {
     #[clap(subcommand)]
-    pub userinput : EntityType,
+    pub userinput : Option<ActionType>,
     pub how_many_lines : usize
 }
 
 #[derive(Debug, Subcommand)]
-pub enum EntityType {
+pub enum ActionType {
 
     /// Set up cols and rows manually. 
     Custom(CustomCommand),
@@ -34,20 +31,15 @@ pub struct CustomCommand {
 }
 #[derive(Debug, Args)]
 pub struct TemplateCommand {
-    #[clap(subcommand)]
-    pub command : BuiltInSubCommand,
+    pub filepath: Option<String>,
 }
 #[derive(Debug, Args)]
 pub struct AutoGenerateCommand {
-    #[clap(subcommand)]
-    pub command : BuiltInSubCommand,
+    pub string: Option<String>,
+    #[arg(short = 'd', long = "digits")]
+    pub col_num: i64, 
+    pub need_digit: bool
 }
-
-#[derive(Debug,Subcommand)]
-pub enum BuiltInSubCommand {
-    Create(CreateFile),
-}
-
 #[derive(Debug,Subcommand)]
 pub enum CustomSubCommand {
     Create(CreateFile),
@@ -56,5 +48,4 @@ pub enum CustomSubCommand {
 pub struct CreateFile {
     pub filename : String,
     pub cols : i64,
-    // pub rows : i64, 
 }

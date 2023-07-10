@@ -1,32 +1,43 @@
 use clap::Parser;
+use std::io;
 use std::error::Error;
-use crate::args::{ActionType};
 mod args;
 mod file_handler;
-
+mod commands;
 fn main() -> Result<(), Box<dyn Error>> {
     let args: args::CliArgs = args::CliArgs::parse(); 
     match &args.userinput {
-        Some(ActionType::AutoGenerate(cmd)) => {
-            match cmd.string {
-                Some(ref _name)=> {
-                    let test = file_handler::read_input_csv_file();
-                }
-                None => { 
-                }
+        Some(commands::ActionType::AutoGenerate(cmd)) => {
+            //         // let test = file_handler::read_input_csv_file();
+            //         // create_sample_csv_file(filename, col, row);
+            println!("Option for autogenerationg csv file.");
+            println!("1. Create default random csv file(Default : 5 columns, 5 rows");
+            println!("2. Set up the number of cols and rows");
+            let mut numChosen = String::new();
+            io::stdin().read_line(&mut numChosen).expect("Failed to readline");
+            if numChosen.trim() == "1" {
+                let samplename: &str = "Testing.csv";
+                let result = file_handler::create_sample_csv_file(samplename, 5,5);
+            }
+            else if numChosen.trim() == "2" {
+
+            }
+            else {
 
             }
         }
-        Some(ActionType::Custom(cmd)) => {
+        Some(commands::ActionType::Custom(cmd)) => {
             // match cmd.
         }
-        Some(ActionType::Template(cmd)) =>{
+        Some(commands::ActionType::Template(cmd)) =>{
             match cmd.filepath {
-                Some(ref _name) => {
-                    // let 
+                Some(ref _fileName) => {
+                    println!("File Name : {}", _fileName);
+                    let test = file_handler::read_input_csv_file();
+
                 }
                 None => {
-
+                    println!("Input is not valid");
                 }
             }
         }
@@ -34,24 +45,11 @@ fn main() -> Result<(), Box<dyn Error>> {
             println!("Not valid input");
         }
     }
-    // println!("{:?}", args);
-    println!("{}", args.how_many_lines);
    // match &arg.command {
     // Commands::Caption(options) => {
         // generate_caption(options)
-    //}
-   //}
     Ok(())
 }
 
 
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn read_input_csv_file_should_returnOk()
-    {
-    //     assert_eq!(add(1, 2), 3);
-    }
-}

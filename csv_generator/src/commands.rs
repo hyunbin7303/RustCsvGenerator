@@ -30,8 +30,8 @@ pub struct AutoGenerateCommand {
     // pub col_num: i64, 
     // pub need_digit: bool
 
-    // #[arg(short = 'h', long = "header")]
-    // pub need_header: bool,
+    #[arg(long = "header")]
+    pub need_header: bool,
 
 }
 #[derive(Debug,Subcommand)]
